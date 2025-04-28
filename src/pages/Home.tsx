@@ -14,6 +14,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { MarqueeDemo } from '@/components/Map/GermanyMarque';
+import { DotPattern } from '@/components/magic-ui/DotPattern';
+import { cn } from '@/lib/utils';
 
 export default function Home() {
   const { services } = useStore();
@@ -28,9 +31,13 @@ export default function Home() {
       <div className="flex flex-col min-h-screen">
         {/* Hero Section */}
         <section className="container relative overflow-hidden bg-background">
-          <div className="absolute inset-0 hero-pattern opacity-[0.03] z-0"></div> {/* Layout */}
-
-          <div className="w-full py-16 sm:py-20 md:py-28 relative z-10">
+          <DotPattern
+            glow={true}
+            className={cn(
+              "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)]",
+            )}
+          />
+          <div className="w-full py-16 sm:py-20 md:py-28 relative z-30">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 md:gap-24 items-center">
               <motion.div
                 initial="hidden"
@@ -74,7 +81,7 @@ export default function Home() {
                   <div className="w-full h-full absolute -bottom-4 -right-4 bg-german-gold/20 rounded-3xl transform -rotate-3"></div>
                   <div className=" max-w-lg min-w-96 min-h-80 max-h-96">
                     <img
-                      src="/images/StudentslearningGerman.jpg"
+                      src="/images/group-five-african-college-students-spending-time-together-campus-university-yard-black-afro-friends-studying-bench-with-school-items-laptops-notebooks.jpg"
                       alt="Students learning German"
                       className="relative z-10 w-full h-full rounded-3xl shadow-xl"
                     />
@@ -225,41 +232,42 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Call to action */}
+        <section className=" bgImage-homebaner py-20 sm:py-28 md:py-36 lg:py-40 relative overflow-hidden">
+          <div className="absolute inset-0 bg-german-gold/50"></div>
+
+          <div className="bg-german-gold/80 text-german-black rounded-lg w-fit p-6 max-w-[100%] mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="text-center space-y-6 max-w-3xl mx-auto"
+            >
+              <h2 className="text-3xl md:text-4xl font-heading font-bold">
+                Commencez votre parcours linguistique avec nous
+              </h2>
+              <p className="text-xl">
+                Apprenez l'allemand dans un environnement accueillant avec des méthodes d'enseignement modernes et efficaces.
+              </p>
+              <div className="pt-4">
+                <Button asChild size="lg" className="rounded-full">
+                  <Link to="/contact">
+                    Nous contacter dès maintenant
+                  </Link>
+                </Button>
+              </div>
+            </motion.div>
+          </div>
+        </section>
 
         {/* Carousel des lieux populaires d'allemagne */}
-        <div className="">
-          Carousel
-        </div>
+        <section className="hidden py-16 sm:py-20 md:py-28 space-y-10 md:space-y-16 lg:md:space-y-20">
+          <div className="container">
+            <MarqueeDemo />
+          </div>
+        </section>
       </div>
-
-      {/* Call to action */}
-      <section className=" bgImage-homebaner py-20 sm:py-28 md:py-36 lg:py-40 relative overflow-hidden">
-        <div className="absolute inset-0 bg-german-gold/50"></div>
-
-        <div className="bg-german-gold/80 text-german-black rounded-lg w-fit p-6 max-w-[100%] mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="text-center space-y-6 max-w-3xl mx-auto"
-          >
-            <h2 className="text-3xl md:text-4xl font-heading font-bold">
-              Commencez votre parcours linguistique avec nous
-            </h2>
-            <p className="text-xl">
-              Apprenez l'allemand dans un environnement accueillant avec des méthodes d'enseignement modernes et efficaces.
-            </p>
-            <div className="pt-4">
-              <Button asChild size="lg" className="rounded-full">
-                <Link to="/contact">
-                  Nous contacter dès maintenant
-                </Link>
-              </Button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
     </>
   );
 }

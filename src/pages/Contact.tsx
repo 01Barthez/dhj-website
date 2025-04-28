@@ -105,7 +105,7 @@ export default function Contact() {
   return (
     <div className="flex flex-col">
       {/* Hero with German flag gradient background */}
-      <section className="w-full bgImage py-16 md:py-24 lg:py-36 relative">
+      <section className="w-full bgImage-contact py-20 md:py-36 lg:py-40  relative">
         <div className="absolute inset-0 bg-gradient-to-r from-black via-german-red to-german-gold opacity-60 w-full h-full"></div>
 
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">

@@ -124,6 +124,8 @@ export default {
 				'fade-up': 'fade-up 0.5s ease-out',
 				'slide-in': 'slide-in 0.5s ease-out',
 				shimmer: 'shimmer 2s linear infinite',
+				marquee: 'marquee var(--duration) infinite linear',
+				'marquee-vertical': 'marquee-vertical var(--duration) linear infinite',
 			}
 		}
 	},
