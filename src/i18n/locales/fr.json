@@ -1,0 +1,40 @@
+
+{
+  "navigation": {
+    "home": "Accueil",
+    "about": "À Propos",
+    "services": "Services",
+    "contact": "Contact"
+  },
+  "actions": {
+    "contact_us": "Nous contacter",
+    "close_menu": "Fermer le menu",
+    "open_menu": "Ouvrir le menu"
+  },
+  "footer": {
+    "description": "Centre de formation en langue allemande situé à Yaoundé-Cameroun, offrant des cours de qualité pour tous les niveaux.",
+    "navigation": "Navigation",
+    "contact": "Contact",
+    "rights": "Tous droits réservés."
+  },
+  "contact": {
+    "title": "Contactez-nous",
+    "subtitle": "Nous sommes là pour répondre à toutes vos questions",
+    "info_title": "Informations de contact",
+    "info_subtitle": "Retrouvez-nous en ligne, par téléphone ou en personne",
+    "phone": "Téléphone",
+    "email": "Email",
+    "address": "Adresse",
+    "form_title": "Envoyez-nous un message",
+    "form_subtitle": "Nous vous répondrons dans les plus brefs délais",
+    "full_name": "Nom complet",
+    "phone_number": "Téléphone",
+    "subject": "Sujet",
+    "message": "Message",
+    "consent_text": "J'accepte que mes données soient utilisées pour me recontacter concernant ma demande.",
+    "send_button": "Envoyer le message",
+    "sending": "Envoi en cours...",
+    "consent_required": "Veuillez accepter les conditions d'utilisation.",
+    "message_sent": "Message envoyé avec succès! Nous vous contacterons bientôt."
+  }
+}

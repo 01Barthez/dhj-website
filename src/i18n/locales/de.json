@@ -1,0 +1,40 @@
+
+{
+  "navigation": {
+    "home": "Startseite",
+    "about": "Über uns",
+    "services": "Dienstleistungen",
+    "contact": "Kontakt"
+  },
+  "actions": {
+    "contact_us": "Kontaktiere uns",
+    "close_menu": "Menü schließen",
+    "open_menu": "Menü öffnen"
+  },
+  "footer": {
+    "description": "Deutsches Sprachzentrum in Kamerun, das Qualitätskurse für alle Niveaus anbietet.",
+    "navigation": "Navigation",
+    "contact": "Kontakt",
+    "rights": "Alle Rechte vorbehalten."
+  },
+  "contact": {
+    "title": "Kontaktieren Sie uns",
+    "subtitle": "Wir sind hier, um alle Ihre Fragen zu beantworten",
+    "info_title": "Kontaktinformationen",
+    "info_subtitle": "Finden Sie uns online, telefonisch oder persönlich",
+    "phone": "Telefon",
+    "email": "E-Mail",
+    "address": "Adresse",
+    "form_title": "Senden Sie uns eine Nachricht",
+    "form_subtitle": "Wir werden Ihnen so schnell wie möglich antworten",
+    "full_name": "Vollständiger Name",
+    "phone_number": "Telefonnummer",
+    "subject": "Betreff",
+    "message": "Nachricht",
+    "consent_text": "Ich bin damit einverstanden, dass meine Daten verwendet werden, um mich bezüglich meiner Anfrage zu kontaktieren.",
+    "send_button": "Nachricht senden",
+    "sending": "Wird gesendet...",
+    "consent_required": "Bitte akzeptieren Sie die Nutzungsbedingungen.",
+    "message_sent": "Nachricht erfolgreich gesendet! Wir werden Sie in Kürze kontaktieren."
+  }
+}

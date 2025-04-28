@@ -1,0 +1,40 @@
+
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "contact": "Contact"
+  },
+  "actions": {
+    "contact_us": "Contact Us",
+    "close_menu": "Close menu",
+    "open_menu": "Open menu"
+  },
+  "footer": {
+    "description": "German language training center located in Cameroon, offering quality courses for all levels.",
+    "navigation": "Navigation",
+    "contact": "Contact",
+    "rights": "All rights reserved."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We're here to answer all your questions",
+    "info_title": "Contact Information",
+    "info_subtitle": "Find us online, by phone or in person",
+    "phone": "Phone",
+    "email": "Email",
+    "address": "Address",
+    "form_title": "Send us a message",
+    "form_subtitle": "We'll respond as soon as possible",
+    "full_name": "Full Name",
+    "phone_number": "Phone Number",
+    "subject": "Subject",
+    "message": "Message",
+    "consent_text": "I agree that my data will be used to contact me regarding my request.",
+    "send_button": "Send Message",
+    "sending": "Sending...",
+    "consent_required": "Please accept the terms of use.",
+    "message_sent": "Message sent successfully! We will contact you soon."
+  }
+}

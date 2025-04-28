@@ -1,0 +1,202 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 0 90% 43%; /* German red */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 49 100% 50%; /* German gold */
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 0 0% 98%;
+
+    --card: 222 47% 11%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 222 47% 11%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 0 90% 50%; /* Brighter German red for dark mode */
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 49 100% 60%; /* Brighter German gold for dark mode */
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  *:select {
+    @apply bg-german-gold/10;
+  }
+  ::selection {
+    @apply bg-german-gold/20 dark:bg-german-red/20 text-foreground/80;
+  }
+  
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .shimmer {
+    @apply overflow-hidden relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:animate-shimmer;
+  }
+}
+
+/* MagicUI-inspired card styles */
+.magic-card {
+  @apply rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg dark:shadow-gray-900/30 transition-all duration-300 overflow-hidden;
+}
+
+/* AceternityUI-inspired effect */
+.text-gradient {
+  @apply bg-gradient-to-r from-german-red to-german-gold bg-clip-text text-transparent;
+}
+
+.hero-pattern {
+  background-color: #ffffff;
+  background-image: radial-gradient(#000000 0.5px, transparent 0.5px), radial-gradient(#000000 0.5px, #ffffff 0.5px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
+.dark .hero-pattern {
+  background-color: #121212;
+  background-image: radial-gradient(#ffffff 0.5px, transparent 0.5px), radial-gradient(#ffffff 0.5px, #121212 0.5px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
+.german-flag-gradient {
+  @apply bg-gradient-to-r from-black via-german-red to-german-gold;
+}
+.dark .german-flag-gradient {
+  @apply bg-gradient-to-r from-black via-german-red to-german-gold brightness-90;
+}
+
+.bgImage{
+  background-image: url("/images/students.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.bgImage-homebaner{
+  background-image: url("/images/banner-students-smiling.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center top;
+}
+
+
+/* African-inspired patterns */
+.african-pattern {
+  background-color: #ffffff;
+  background-image: repeating-linear-gradient(45deg, #ffe29f 0, #ffe29f 10px, transparent 10px, transparent 20px);
+}
+
+.dark .african-pattern {
+  background-color: #121212;
+  background-image: repeating-linear-gradient(45deg, rgba(255, 226, 159, 0.2) 0, rgba(255, 226, 159, 0.2) 10px, transparent 10px, transparent 20px);
+}
+
+/* Improved image styling */
+.image-frame {
+  @apply border-4 border-german-gold/50 dark:border-german-gold/30 rounded-md shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1;
+}
+
+
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  display: grid;
+}
+
+.loader::before,
+.loader::after {
+  content: '';
+  grid-area: 1/1;
+  --c: no-repeat radial-gradient(farthest-side, #dd0000 72%, #0000);
+  background:
+    var(--c) 50% 0,
+    var(--c) 50% 100%,
+    var(--c) 100% 50%,
+    var(--c) 0 50%;
+  background-size: 12px 12px;
+  animation: l12 0.8s infinite;
+}
+
+.dark .loader::before,
+.dark .loader::after {
+  --c: no-repeat radial-gradient(farthest-side, #c850c0 72%, #0000);
+}
+
+.loader::before {
+  margin: 4px;
+  filter: hue-rotate(45deg);
+  background-size: 8px 8px;
+  animation-timing-function: linear;
+}
+
+.link-underline {
+  @apply relative;
+}
+
+.link-underline::after {
+  content: '';
+  @apply absolute -bottom-1 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full bg-gradient-to-tr from-german-black from-5% via-german-red via-70% to-german-gold transition-transform duration-300;
+}
+
+.link-underline:hover::after,
+.link-underline.active::after {
+  @apply scale-x-100;
+}
+
