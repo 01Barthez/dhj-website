@@ -31,7 +31,7 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route element={<Layout />}>
-              <Route path="/" element={<PageLoading />} />
+              <Route path="/" element={<Home />} />
               <Route path="/about" element={<Suspense fallback={<PageLoading />}>
                 <About />
               </Suspense>} />
