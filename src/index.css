@@ -212,7 +212,7 @@
 
 .dark .loader::before,
 .dark .loader::after {
-  --c: no-repeat radial-gradient(farthest-side, #c850c0 72%, #0000);
+  --c: no-repeat radial-gradient(farthest-side, #000 72%, #c850c0);
 }
 
 .loader::before {
@@ -220,6 +220,12 @@
   filter: hue-rotate(45deg);
   background-size: 8px 8px;
   animation-timing-function: linear;
+}
+
+@keyframes l12 {
+  100% {
+    transform: rotate(0.5turn);
+  }
 }
 
 .link-underline {
