@@ -10,13 +10,13 @@ const secondRow = places.slice(places.length / 2);
 export function MarqueeDemo() {
   return (
     <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
-      <Marquee pauseOnHover className="[--duration:20s]">
+      <Marquee pauseOnHover className="[--duration:35s]">
         {firstRow.map((review) => (
           <PlaceCard key={review.name} {...review} />
         ))}
       </Marquee>
 
-      <Marquee reverse pauseOnHover className="[--duration:20s]">
+      <Marquee reverse pauseOnHover className="[--duration:35s]">
         {secondRow.map((review) => (
           <PlaceCard key={review.name} {...review} />
         ))}

@@ -262,7 +262,7 @@ export default function Home() {
         </section>
 
         {/* Carousel des lieux populaires d'allemagne */}
-        <section className="hidden py-16 sm:py-20 md:py-28 space-y-10 md:space-y-16 lg:md:space-y-20">
+        <section className="py-16 sm:py-20 md:py-28 space-y-10 md:space-y-16 lg:md:space-y-20">
           <div className="container">
             <MarqueeDemo />
           </div>
