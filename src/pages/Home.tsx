@@ -218,11 +218,11 @@ export default function Home() {
             </div>
 
             {/* Image CEO */}
-            <div className="max-w-screen-md mx-auto w-full flex items-center flex-col gap-4">
+            <div className="max-w-screen-md mx-auto w-full flex overflow-hidden items-center flex-col gap-4">
               <img
-                src="/images/CEO-DHJ_Denis_Magloire.png"
+                src="/images/CEO-DHJ.png"
                 alt="Profile CEO-DHJ"
-                className="w-full"
+                className="w-full select-none pointer-events-none max-h-[40rem] object-contain"
                 loading='lazy'
               />
               <span className="text-center text-foreground/90 font-extralight italic">

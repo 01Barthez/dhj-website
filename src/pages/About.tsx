@@ -44,12 +44,17 @@ export default function About() {
               viewport={{ once: true }}
             >
               <div className="relative">
-                <div className="w-full h-full absolute -top-4 -left-4 bg-german-gold/20 rounded-3xl transform rotate-3"></div>
-                <img
-                  src="https://images.unsplash.com/photo-1517486808906-6ca8b3f8e1c1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="German language classroom"
-                  className="relative z-10 w-full rounded-3xl shadow-xl"
-                />
+                <div className="max-w-screen-md mx-auto w-full flex  overflow-hidden items-center flex-col gap-4">
+                  <img
+                    src="/images/CEO-DHJ.png"
+                    alt="Profile CEO-DHJ"
+                    className="w-full select-none pointer-events-none max-h-[35rem] object-contain"
+                    loading='lazy'
+                  />
+                  <span className="text-center text-foreground/90 font-extralight italic">
+                    Delice Magloire - <span className="font-bold"> CEO DHJ</span>
+                  </span>
+                </div>
               </div>
             </motion.div>
 
