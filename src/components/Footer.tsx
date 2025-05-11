@@ -16,7 +16,7 @@ export default function Footer() {
           <div>
             <Logo className="h-14 w-auto" />
             <p className="mt-4 text-sm text-gray-800 dark:text-gray-300 max-w-xs">
-              {t('footer.description')}
+              Centre de formation en langue allemande situé au Cameroun, offrant des cours de qualité pour tous les niveaux.
             </p>
             <div className="mt-6 flex space-x-4">
               <Link

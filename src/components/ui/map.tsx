@@ -6,7 +6,7 @@ interface MapProps {
   mapUrl: string;
 }
 
-export function Map({ location, mapUrl }: MapProps) {
+export function MapPosition({ location, mapUrl }: MapProps) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Create a sanitized Google Maps embed URL from the shared map URL
