@@ -1,26 +1,33 @@
-FROM node:24-alpine AS build
+# Étape de build avec Bun
+FROM oven/bun:1.1.13-alpine AS build
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
+# Copie des fichiers nécessaires pour l'installation
+COPY package.json bun.lockb ./
 
-RUN if ! command -v yarn >/dev/null; then npm install -g yarn; fi && yarn install --frozen-lockfile
+# Installation des dépendances en mode production avec le lockfile
+RUN bun install --frozen-lockfile
 
+# Copie du code source
 COPY . .
 
-RUN yarn build
+# Construction de l'application (adapté si bun build est bien configuré)
+RUN bun run build
 
-EXPOSE 4000
-
-CMD [ "yarn", "start"]
-
-# Production step with Nginx
-FROM nginx:1.27.5-alpinelpine3.21
+# Étape finale de production avec Nginx
+FROM nginx:1.27.5-alpine3.21 AS production
 
 WORKDIR /usr/share/nginx/html
 
-COPY --from=build /app/dist /usr/share/nginx/html
+# Copie des fichiers générés depuis la phase de build
+COPY --from=build /app/dist ./
 
+# Remplacement de la configuration par défaut de Nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Exposition du port
 EXPOSE 80
 
+# Lancement de Nginx en mode "foreground"
 CMD ["nginx", "-g", "daemon off;"]
