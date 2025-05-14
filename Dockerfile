@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package.json bun.lockb ./
 
 # Installation des dépendances en mode production avec le lockfile
-RUN bun install --frozen-lockfile
+RUN bun install
 
 # Copie du code source
 COPY . .
