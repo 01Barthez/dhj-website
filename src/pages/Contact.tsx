@@ -59,6 +59,22 @@ export default function Contact() {
       return;
     }
 
+    // Numéro WhatsApp du destinataire
+    const phoneNumber = '237696220854';
+
+    // Format du message
+    const message =
+      `*Demande de contact*%0A` +
+      `Nom : ${formData.name}%0A` +
+      `Numéro de Téléphone : ${formData.phone}%0A` +
+      `Email : ${formData.email}%0A` +
+      `SuJets : ${formData.subject}`;
+      `Message : ${formData.message}`;
+
+    // Encode et redirige
+    window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+
+
     const emailData = {
       ...formData,
       to_email: email_receiver,
