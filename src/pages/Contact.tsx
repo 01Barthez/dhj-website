@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect, useCallback, useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { Facebook, Instagram, Mail, Phone, MapPin } from 'lucide-react';
 import { toast } from 'sonner';
@@ -16,18 +16,55 @@ import { Link } from 'react-router-dom';
 import emailjs from "emailjs-com";
 import { config as loadEnvSafe } from "dotenv-safe";
 import { cn } from "@/lib/utils";
+import { PUBLIC_KEY, SERVICE_ID, TEMPLATE_ID_CONTACT } from '@/constants/constant';
 
+// Types pour une meilleure performance
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+  consent: boolean;
+}
+
+interface ContactCardProps {
+  icon: React.ReactNode;
+  title: string;
+  content: string;
+  link: string;
+  bgColor: string;
+  iconColor: string;
+}
+
+// Composant ContactCard mémorisé pour éviter les re-renders inutiles
+const ContactCard = memo(({ icon, title, content, link, bgColor, iconColor }: ContactCardProps) => (
+  <Link
+    to={link}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label={title.toLowerCase()}
+  >
+    <Card className="overflow-hidden border-none bg-card shadow-lg dark:shadow-sm dark:shadow-white">
+      <CardContent className="p-6 flex flex-col items-center text-center">
+        <div className={`h-12 w-12 rounded-full ${bgColor} flex items-center justify-center mb-4`}>
+          <div className={iconColor}>{icon}</div>
+        </div>
+        <h3 className="text-lg font-semibold mb-1">{title}</h3>
+        <p className="text-foreground/80">{content}</p>
+      </CardContent>
+    </Card>
+  </Link>
+));
+
+ContactCard.displayName = 'ContactCard';
+
+// Composant principal optimisé
 export default function Contact() {
   const { contactInfo } = useStore();
   const { t } = useTranslation();
 
-  //  Email Datas;
-  const email_receiver = import.meta.env.VITE_EMAIL_RECEIVER;
-  const email_service_ID = import.meta.env.VITE_EMAIL_SERVICE_ID;
-  const email_template_ID = import.meta.env.VITE_EMAIL_TEMPLATE_ID;
-  const publicKey = import.meta.env.VITE_EMAIL_PUBLIC_KEY;
-
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     phone: '',
@@ -38,101 +75,157 @@ export default function Contact() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Scroll to top une seule fois au montage
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  // Handlers optimisés avec useCallback
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-  };
+  }, []);
 
-  const handleCheckboxChange = (checked: boolean) => {
+  const handleCheckboxChange = useCallback((checked: boolean) => {
     setFormData(prev => ({ ...prev, consent: checked }));
-  };
+  }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Fonction utilitaire pour réinitialiser le formulaire
+  const resetForm = useCallback(() => {
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      subject: '',
+      message: '',
+      consent: false
+    });
+  }, []);
+
+  // Fonction pour générer le message WhatsApp
+  const generateWhatsAppMessage = useCallback((data: FormData) => {
+    const phoneNumber = '237696220854';
+    const message = 
+      `*Nouvelle demande de contact - Centre Allemand DHJ*\n` +
+      `Nom : ${data.name}\n` +
+      `Numéro de Téléphone : ${data.phone}\n` +
+      `Email : ${data.email}\n` +
+      `Sujet : ${data.subject}\n` +
+      `Message : ${data.message}`;
+    
+    return `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+  }, []);
+
+  // Handler de soumission optimisé
+  const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
 
     if (!formData.consent) {
-      toast.error(t('contact.consent_required', 'Please accept the terms of use.'));
+      toast.error(t('contact.consent_required', 'Veuillez accepter les conditions d\'utilisation.'));
       return;
     }
 
+    setIsSubmitting(true);
 
     const emailData = {
       ...formData,
-      to_email: email_receiver,
     };
 
     emailjs
       .send(
-        email_service_ID,
-        email_template_ID,
-        {
-          ...formData,
-          to_email: email_receiver
-        },
-        publicKey
+        SERVICE_ID,
+        TEMPLATE_ID_CONTACT,
+        emailData,
+        PUBLIC_KEY
       )
       .then(
         (result) => {
-          setIsSubmitting(true);
-          console.log(formData);
-
-          // Simulate form submission
+          console.log('Email envoyé avec succès:', result);
+          
+          // Simulation d'envoi pour l'UX
           setTimeout(() => {
-            toast.success(`Merci ${formData.name}, Votre message a bien été envoyé nous vous recontacterons très bientôt !`);
-            setFormData({
-              name: '',
-              email: '',
-              phone: '',
-              subject: '',
-              message: '',
-              consent: false
-            });
+            toast.success(`Merci ${formData.name}, votre message a bien été envoyé ! Nous vous recontacterons très bientôt.`);
+            resetForm();
             setIsSubmitting(false);
           }, 1500);
         },
         (error) => {
-          toast.error(`Echec de la soumission du formulaire !`);
-          console.log(error);
+          console.error('Erreur lors de l\'envoi:', error);
+          toast.error('Échec de la soumission du formulaire !');
+          setIsSubmitting(false);
         }
       );
-  };
 
-  // Numéro WhatsApp du destinataire
-  const phoneNumber = '237696220854';
+      // Ouvrir WhatsApp dans un nouvel onglet
+      window.open(generateWhatsAppMessage(formData), '_blank');      
+  }, [formData, t, generateWhatsAppMessage, resetForm]);
 
-  // Format du message
-  const message =
-    `*Nouvelle demande de contact - Centre Allemand DHJ* %0A` +
-    `Nom : ${formData.name}%0A` +
-    `Numéro de Téléphone : ${formData.phone}%0A` +
-    `Email : ${formData.email}%0A` +
-    `SuJets : ${formData.subject}`;
-  `Message : ${formData.message}`;
+  // Mémoisation des données de contact pour éviter les re-renders
+  const contactCards = useMemo(() => [
+    {
+      icon: <Phone className="h-5 w-5" />,
+      title: 'Téléphone',
+      content: contactInfo.phone,
+      link: contactInfo.whatsapp,
+      bgColor: 'bg-german-red/10',
+      iconColor: 'text-german-red'
+    },
+    {
+      icon: <Mail className="h-5 w-5" />,
+      title: 'Email',
+      content: contactInfo.email,
+      link: contactInfo.email_link,
+      bgColor: 'bg-german-gold/10',
+      iconColor: 'text-german-gold'
+    },
+    {
+      icon: <MapPin className="h-5 w-5" />,
+      title: 'Adresse',
+      content: contactInfo.location,
+      link: contactInfo.mapUrl,
+      bgColor: 'bg-german-red/10',
+      iconColor: 'text-german-red'
+    },
+    {
+      icon: <Facebook className="h-5 w-5" />,
+      title: 'Facebook',
+      content: 'DeutschesHausJaunde',
+      link: contactInfo.facebook,
+      bgColor: 'bg-german-gold/10',
+      iconColor: 'text-german-gold'
+    }
+  ], [contactInfo]);
 
-  // Encode et redirige
-  window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
-
+  // Mémoisation des variants d'animation
+  const animationVariants = useMemo(() => ({
+    hero: {
+      initial: { opacity: 0, y: 20 },
+      animate: { opacity: 1, y: 0 },
+      transition: { duration: 0.5 }
+    },
+    contactInfo: {
+      initial: { opacity: 0, x: -20 },
+      animate: { opacity: 1, x: 0 },
+      transition: { duration: 0.5 }
+    },
+    form: {
+      initial: { opacity: 0, x: 20 },
+      animate: { opacity: 1, x: 0 },
+      transition: { duration: 0.5, delay: 0.2 }
+    }
+  }), []);
 
   return (
     <div className="flex flex-col">
-      {/* Hero with German flag gradient background */}
-      <section className="w-full bgImage-contact py-20 md:py-36 lg:py-40  relative">
+      {/* Hero Section */}
+      <section className="w-full bgImage-contact py-20 md:py-36 lg:py-40 relative">
         <div className="absolute inset-0 bg-gradient-to-r from-black via-german-red to-german-gold opacity-60 w-full h-full"></div>
-
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
           <div className="max-w-3xl mx-auto text-center text-white">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
+            <motion.div {...animationVariants.hero}>
               <h1 className="text-4xl md:text-5xl font-heading font-bold mb-6">Contactez Nous</h1>
               <p className="text-xl">
-                Nous sommes disponible pour répondre à toutes vos questions
+                Nous sommes disponibles pour répondre à toutes vos questions
               </p>
             </motion.div>
           </div>
@@ -143,13 +236,12 @@ export default function Contact() {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="flex flex-col lg:flex-row justify-between items-center gap-16">
+            {/* Contact Info */}
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
+              {...animationVariants.contactInfo}
               className="space-y-8 shadow-sm p-6 rounded overflow-hidden shadow-german-black/20 dark:shadow-white/20"
             >
-              <div className="flex flex-col  items-center gap-2 md:gap-3 mb-8">
+              <div className="flex flex-col items-center gap-2 md:gap-3 mb-8">
                 <h2 className="text-3xl md:text-4xl font-heading font-bold tracking-tight text-center">
                   <span className="text-gradient">Informations</span> de contact
                 </h2>
@@ -159,92 +251,24 @@ export default function Contact() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Link
-                  to={contactInfo.whatsapp}
-                  className=""
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="phone"
-                >
-                  <Card className="overflow-hidden border-none bg-card shadow-lg dark:shadow-sm dark:shadow-white">
-                    <CardContent className="p-6 flex flex-col items-center text-center">
-                      <div className="h-12 w-12 rounded-full bg-german-red/10 flex items-center justify-center mb-4">
-                        <Phone className="h-5 w-5 text-german-red" />
-                      </div>
-                      <h3 className="text-lg font-semibold mb-1">Téléphone</h3>
-                      <p className="text-foreground/80">{contactInfo.phone}</p>
-                    </CardContent>
-                  </Card>
-                </Link>
-
-                <Link
-                  to={contactInfo.email_link}
-                  className=""
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="email"
-                >
-                  <Card className="overflow-hidden border-none shadow-lg dark:shadow-sm dark:shadow-white bg-card">
-                    <CardContent className="p-6 flex flex-col items-center text-center">
-                      <div className="h-12 w-12 rounded-full bg-german-gold/10 flex items-center justify-center mb-4">
-                        <Mail className="h-5 w-5 text-german-gold" />
-                      </div>
-                      <h3 className="text-lg font-semibold mb-1">Email</h3>
-                      <p className="text-foreground/80">{contactInfo.email}</p>
-                    </CardContent>
-                  </Card>
-                </Link>
-
-                <Link
-                  to={contactInfo.mapUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="location"
-                  className=""
-                >
-                  <Card className="overflow-hidden border-none shadow-lg dark:shadow-sm dark:shadow-white bg-card">
-                    <CardContent className="p-6 flex flex-col items-center text-center">
-                      <div className="h-12 w-12 rounded-full bg-german-red/10 flex items-center justify-center mb-4">
-                        <MapPin className="h-5 w-5 text-german-red" />
-                      </div>
-                      <h3 className="text-lg font-semibold mb-1">Adresse</h3>
-                      <p className="text-foreground/80">{contactInfo.location}</p>
-                    </CardContent>
-                  </Card>
-                </Link>
-
-                <Link
-                  to={contactInfo.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Instagram"
-                  className=""
-                >
-                  <Card className="overflow-hidden border-none shadow-lg dark:shadow-sm dark:shadow-white bg-card">
-                    <CardContent className="p-6 flex flex-col items-center text-center">
-                      <div className="h-12 w-12 rounded-full bg-german-gold/10 flex items-center justify-center mb-4">
-                        <Facebook className="h-5 w-5 text-german-gold" />
-                      </div>
-                      <h3 className="text-lg font-semibold mb-1">Facebook</h3>
-                      <Link
-                        to={contactInfo.facebook}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-foreground/80 hover:underline"
-                      >
-                        DeutschesHausJaunde
-                      </Link>
-                    </CardContent>
-                  </Card>
-                </Link>
+                {contactCards.map((card, index) => (
+                  <ContactCard
+                    key={`contact-${index}`}
+                    icon={card.icon}
+                    title={card.title}
+                    content={card.content}
+                    link={card.link}
+                    bgColor={card.bgColor}
+                    iconColor={card.iconColor}
+                  />
+                ))}
               </div>
             </motion.div>
 
+            {/* Form */}
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className=" shadow-sm p-0 rounded overflow-hidden shadow-german-red/20 dark:shadow-german-red/80"
+              {...animationVariants.form}
+              className="shadow-sm p-0 rounded overflow-hidden shadow-german-red/20 dark:shadow-german-red/80"
             >
               <Card className="overflow-hidden border-none shadow-xl">
                 <CardContent className="p-8">
@@ -361,12 +385,18 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Card section */}
+      {/* Map Section */}
       <section className="shadow-sm p-6 rounded overflow-hidden shadow-german-gold">
         <Card className="border-none shadow-xl">
           <CardContent className="">
-            {/* <MapPosition location={contactInfo.location} mapUrl={contactInfo.mapUrl} /> */}
-            <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d2122.384822476309!2d11.554148185019468!3d3.8791264690999006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zM8KwNTInNDUuMCJOIDExwrAzMycxOS4zIkU!5e0!3m2!1sfr!2scm!4v1746989409866!5m2!1sfr!2scm" style={{ border: 0, width: "100%", height: "500px" }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d2122.384822476309!2d11.554148185019468!3d3.8791264690999006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zM8KwNTInNDUuMCJOIDExwrAzMycxOS4zIkU!5e0!3m2!1sfr!2scm!4v1746989409866!5m2!1sfr!2scm" 
+              style={{ border: 0, width: "100%", height: "500px" }} 
+              allowFullScreen 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Localisation Centre Allemand DHJ"
+            />
           </CardContent>
         </Card>
       </section>

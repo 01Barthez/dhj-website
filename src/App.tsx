@@ -12,6 +12,10 @@ import Layout from "./components/Layout";
 // Eager loaded page
 import Home from "./pages/Home";
 import { PageLoading } from "./components/Loading";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
+import Pricing from "./pages/Pricing";
+import Registration from "./pages/Registration";
 
 // Lazy loaded pages for code splitting
 const About = lazy(() => import("./pages/About"));
@@ -42,6 +46,22 @@ const App = () => {
 
               <Route path="/contact" element={<Suspense fallback={<PageLoading />}>
                 <Contact />
+              </Suspense>} />
+
+              <Route path="/blog" element={<Suspense fallback={<PageLoading />}>
+                <Blog />
+              </Suspense>} />
+
+              <Route path="/blog/:id" element={<Suspense fallback={<PageLoading />}>
+                <BlogPost />
+              </Suspense>} />
+
+              <Route path="/tarifs" element={<Suspense fallback={<PageLoading />}>
+                <Pricing />
+              </Suspense>} />
+
+              <Route path="/inscription" element={<Suspense fallback={<PageLoading />}>
+                <Registration />
               </Suspense>} />
 
               <Route path="*" element={<Suspense fallback={<PageLoading />}>
