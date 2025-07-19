@@ -6,24 +6,27 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Calendar, Clock, ArrowRight, User, ChevronLeft, ChevronRight, Search, X, Filter, ChevronDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { blogPosts } from '@/data/blogData';
+import { blogPosts } from '@/utils/data/blogData';
+
+// Convertir l'objet blogPosts en tableau
+const blogPostsArray = Object.values(blogPosts);
 
 // Fonctions pour extraire les valeurs uniques des données
 const getUniqueCategories = () => {
-  const categories = [...new Set(blogPosts.map(post => post.category))];
+  const categories = [...new Set(blogPostsArray.map(post => post.category))];
   return ['Tous', ...categories];
 };
 
 const getUniqueAuthors = () => {
-  return [...new Set(blogPosts.map(post => post.author))];
+  return [...new Set(blogPostsArray.map(post => post.author))];
 };
 
 const getUniqueReadTimes = () => {
-  return [...new Set(blogPosts.map(post => post.readTime))];
+  return [...new Set(blogPostsArray.map(post => post.readTime))];
 };
 
 const getDateRanges = () => {
-  const dates = blogPosts.map(post => new Date(post.date));
+  const dates = blogPostsArray.map(post => new Date(post.date));
   const minDate = new Date(Math.min(...dates.map(date => date.getTime())));
   const maxDate = new Date(Math.max(...dates.map(date => date.getTime())));
   
@@ -39,7 +42,7 @@ export default function Blog() {
   const [selectedReadTime, setSelectedReadTime] = useState('Tous');
   const [selectedDateRange, setSelectedDateRange] = useState({ start: '', end: '' });
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
-  const [filteredPosts, setFilteredPosts] = useState(blogPosts);
+  const [filteredPosts, setFilteredPosts] = useState(blogPostsArray);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const { t } = useTranslation();
@@ -57,7 +60,7 @@ export default function Blog() {
   }, []);
 
   useEffect(() => {
-    let filtered = blogPosts;
+    let filtered = blogPostsArray;
     
     // Filter by category
     if (selectedCategory !== 'Tous') {
@@ -351,7 +354,7 @@ export default function Blog() {
           {/* Featured Posts */}
           <div className="mb-16">
             <h2 className="text-2xl md:text-3xl font-heading font-bold mb-8">
-              Articles à la une
+              Articles Populaires
             </h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {filteredPosts.filter(post => post.featured).map((post, index) => (

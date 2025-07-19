@@ -172,7 +172,7 @@ export default function About() {
                 <div className="relative">
                   <div className="max-w-screen-md mx-auto w-full flex overflow-hidden items-center flex-col gap-4">
                     <img
-                      src="images/Denis-Action.jpeg"
+                      src="/images/Denis-Action.jpeg"
                       alt="Directeur enseignant en Allemagne"
                       className="w-full select-none pointer-events-none max-h-[35rem] object-cover rounded-lg shadow-lg"
                       loading='lazy'

@@ -66,6 +66,16 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/tarifs" className="text-base text-gray-800 dark:text-gray-300 hover:text-german-red dark:hover:text-german-gold transition-colors">
+                  Tarifs
+                </Link>
+              </li>
+              <li>
+                <Link to="/blog" className="text-base text-gray-800 dark:text-gray-300 hover:text-german-red dark:hover:text-german-gold transition-colors">
+                  Blog
+                </Link>
+              </li>
+              <li>
                 <Link to="/contact" className="text-base text-gray-800 dark:text-gray-300 hover:text-german-red dark:hover:text-german-gold transition-colors">
                   Contact
                 </Link>

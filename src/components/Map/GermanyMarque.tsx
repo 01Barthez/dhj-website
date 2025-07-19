@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Marquee } from "../magic-ui/Marquee";
-import { places } from "@/utils/mocks/mock";
+import { places } from "@/utils/data/placesData";
 import { PlaceCard } from '../cards/PlaceCard';
 
 const firstRow = places.slice(0, places.length / 2);

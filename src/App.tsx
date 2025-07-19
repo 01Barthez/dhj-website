@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 
 // Layout
 import Layout from "./components/Layout";
@@ -27,52 +28,54 @@ const queryClient = new QueryClient();
 
 const App = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
 
-        <BrowserRouter>
-          <Routes>
-            <Route element={<Layout />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<Suspense fallback={<PageLoading />}>
-                <About />
-              </Suspense>} />
+          <BrowserRouter>
+            <Routes>
+              <Route element={<Layout />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<Suspense fallback={<PageLoading />}>
+                  <About />
+                </Suspense>} />
 
-              <Route path="/services" element={<Suspense fallback={<PageLoading />}>
-                <Services />
-              </Suspense>} />
+                <Route path="/services" element={<Suspense fallback={<PageLoading />}>
+                  <Services />
+                </Suspense>} />
 
-              <Route path="/contact" element={<Suspense fallback={<PageLoading />}>
-                <Contact />
-              </Suspense>} />
+                <Route path="/contact" element={<Suspense fallback={<PageLoading />}>
+                  <Contact />
+                </Suspense>} />
 
-              <Route path="/blog" element={<Suspense fallback={<PageLoading />}>
-                <Blog />
-              </Suspense>} />
+                <Route path="/blog" element={<Suspense fallback={<PageLoading />}>
+                  <Blog />
+                </Suspense>} />
 
-              <Route path="/blog/:id" element={<Suspense fallback={<PageLoading />}>
-                <BlogPost />
-              </Suspense>} />
+                <Route path="/blog/:id" element={<Suspense fallback={<PageLoading />}>
+                  <BlogPost />
+                </Suspense>} />
 
-              <Route path="/tarifs" element={<Suspense fallback={<PageLoading />}>
-                <Pricing />
-              </Suspense>} />
+                <Route path="/tarifs" element={<Suspense fallback={<PageLoading />}>
+                  <Pricing />
+                </Suspense>} />
 
-              <Route path="/inscription" element={<Suspense fallback={<PageLoading />}>
-                <Registration />
-              </Suspense>} />
+                <Route path="/inscription" element={<Suspense fallback={<PageLoading />}>
+                  <Registration />
+                </Suspense>} />
 
-              <Route path="*" element={<Suspense fallback={<PageLoading />}>
-                <NotFound />
-              </Suspense>} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+                <Route path="*" element={<Suspense fallback={<PageLoading />}>
+                  <NotFound />
+                </Suspense>} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
 
-      </TooltipProvider>
-    </QueryClientProvider>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 };
 
