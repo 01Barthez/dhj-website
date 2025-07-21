@@ -19,12 +19,12 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   return (
     <div
       className={cn(
-        "fixed inset-0 z-50 bg-background backdrop-blur-md shadow-sm lg:hidden transform transition-transform duration-300 ease-in-out",
+        "fixed inset-0 z-50 bg-background backdrop-blur-md shadow-sm lg:hidden transform transition-transform duration-300 ease-in-out overflow-x-hidden w-full",
         isOpen ? "translate-x-0" : "translate-x-full"
       )}
     >
-      <div className="fixed inset-0 z-50">
-        <div className="flex min-h-full flex-col px-6 py-6">
+      <div className="fixed inset-0 z-50 w-full">
+        <div className="flex min-h-full flex-col px-6 py-6 w-full">
           <div className="flex items-center justify-between">
             <Link to="/" className="-m-1.5 p-1.5" onClick={onClose}>
               <span className="sr-only">Deutsches Haus Jaounde</span>

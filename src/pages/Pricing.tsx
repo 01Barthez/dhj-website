@@ -16,7 +16,7 @@ const pricingPlans = [
     monthlyPrice: 60000,
     duration: 2,
     registrationFee: 10000,
-    totalPrice: 130000,
+    totalPrice: 120000,
     popular: false,
     features: [
       'Apprentissage de l\'alphabet allemand',
@@ -43,7 +43,7 @@ const pricingPlans = [
     monthlyPrice: 60000,
     duration: 2,
     registrationFee: 10000,
-    totalPrice: 130000,
+    totalPrice: 120000,
     popular: true,
     features: [
       'Vocabulaire étendu (1000 mots)',
@@ -70,7 +70,7 @@ const pricingPlans = [
     monthlyPrice: 65000,
     duration: 2,
     registrationFee: 10000,
-    totalPrice: 140000,
+    totalPrice: 130000,
     popular: false,
     features: [
       'Vocabulaire professionnel (2000 mots)',
@@ -97,7 +97,7 @@ const pricingPlans = [
     monthlyPrice: 65000,
     duration: 2,
     registrationFee: 10000,
-    totalPrice: 140000,
+    totalPrice: 130000,
     popular: true,
     features: [
       'Vocabulaire spécialisé (3000+ mots)',
