@@ -16,7 +16,7 @@ export function FooterBottom() {
           to="https://gta-it.com" 
           className="font-semibold text-primary/70 hover:text-primary/90"
         >
-          GTA Digital
+          GTA IT
         </Link>
       </p>
     </div>

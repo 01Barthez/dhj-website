@@ -59,7 +59,7 @@ export function HeroSection() {
               <div className="w-full h-full absolute -bottom-4 -right-4 bg-german-gold/20 rounded-3xl transform -rotate-3"></div>
               <div className=" max-w-lg min-w-96 min-h-80 max-h-96">
                 <img
-                  src="/images/group-five-african-college-students-spending-time-together-campus-university-yard-black-afro-friends-studying-bench-with-school-items-laptops-notebooks-min.jpg"
+                  src="/images/Denis-Action.jpeg"
                   alt="Students learning German"
                   className="relative z-10 w-full h-full rounded-3xl shadow-xl"
                 />
